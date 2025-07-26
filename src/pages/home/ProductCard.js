@@ -1,6 +1,7 @@
 import React from 'react';
 import classNames from 'classnames';
 import { Link } from 'react-router-dom';
+import { toast } from 'react-toastify'; // ✅ Import Toast
 
 import './ProductCard.scss';
 
@@ -11,13 +12,20 @@ import { calculatePriceDetails } from 'utils.js/product';
 
 function ProductCard({ className, product }) {
   const { finalPrice, basePrice, isDiscounted } = calculatePriceDetails(
-    product.price,
+    product.price
   );
+
+  // ✅ Optional (if you want to show toast here instead of inside AddToCart)
+  // const handleAddToCart = () => {
+  //   dispatch({ type: 'ADD_TO_CART', payload: product });
+  //   toast.success("Item added to cart!");
+  // };
 
   return (
     <div className="product-card-wrapper">
       <div className={classNames('product-card', { [className]: className })}>
         <div className="product-card__title">{product.title}</div>
+
         <div className="product-card__price">
           <CurrencyFormat
             className="product-card__amount"
@@ -49,7 +57,7 @@ function ProductCard({ className, product }) {
         </Link>
 
         <div className="product-card__actions">
-          <AddToCard product={product} />
+          <AddToCard product={product} toast={toast} /> {/* ✅ Pass toast to AddToCart */}
         </div>
       </div>
     </div>
